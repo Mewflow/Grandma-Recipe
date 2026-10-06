@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All recipes — Grandma GPT's Recipe Vault</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html">Grandma GPT's <span>Recipe Vault</span></a>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="recipes.html" aria-current="page">Recipes</a>
+      <a href="index.html#newsletter">Newsletter</a>
+    </nav>
+  </header>
+  <div class="gingham"></div>
+
+  <section>
+    <p class="eyebrow">The whole vault</p>
+    <h1>Every recipe I've got</h1>
+    <p class="lede" style="max-width:52ch">Pick a category, pick how much time you've actually got, and I'll do the rest.</p>
+
+    <div class="filters" id="filters" style="margin-top:36px">
+      <strong style="margin-right:6px">Category:</strong>
+      <button class="chip" data-cat="all" aria-pressed="true">All</button>
+      <button class="chip" data-cat="Breakfast" aria-pressed="false">Breakfast</button>
+      <button class="chip" data-cat="Mains" aria-pressed="false">Mains</button>
+      <button class="chip" data-cat="Desserts" aria-pressed="false">Desserts</button>
+      <button class="chip" data-cat="Soups" aria-pressed="false">Soups</button>
+      <button class="chip" data-cat="Snacks" aria-pressed="false">Snacks</button>
+      <div class="sep"></div>
+      <strong style="margin-right:6px">Cook time:</strong>
+      <button class="chip" data-time="all" aria-pressed="true">Any</button>
+      <button class="chip" data-time="30" aria-pressed="false">Under 30 min</button>
+      <button class="chip" data-time="60" aria-pressed="false">Under 1 hour</button>
+      <button class="chip" data-time="999" aria-pressed="false">Take your time</button>
+    </div>
+
+    <div class="grid" id="list"></div>
+    <p class="note" id="empty" style="display:none">Nothing in that drawer, sweetheart. Try another filter.</p>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap cols-foot">
+    <div>
+      <a class="brand" href="index.html">Grandma GPT's <span>Recipe Vault</span></a>
+      <p>Every recipe made with love and one occasionally imagined ingredient.</p>
+    </div>
+    <form class="newsletter newsletter-form" novalidate>
+      <h2 style="font-size:1.4rem">Letters from the kitchen</h2>
+      <div class="fields">
+        <div><label for="n3">Name</label><input id="n3" name="name" type="text"></div>
+        <div><label for="e3">Email</label><input id="e3" name="email" type="email"></div>
+        <div><button class="btn" type="submit">Send me recipes, sweetheart</button></div>
+      </div>
+      <p class="form-msg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+  <div class="wrap"><small>© Grandma GPT. Recipes are real, one ingredient per recipe is not.</small></div>
+</footer>
+
+<script src="recipes.js"></script>
+<script src="site.js"></script>
+<script>
+  var state = { cat: "all", time: "all" };
+  var list = document.getElementById("list");
+  var empty = document.getElementById("empty");
+
+  function render() {
+    var items = window.RECIPES.filter(function (r) {
+      var okCat = state.cat === "all" || r.category === state.cat;
+      var okTime = state.time === "all" ||
+        (state.time === "999" ? r.cookTime > 60 : r.cookTime <= Number(state.time));
+      return okCat && okTime;
+    });
+    list.innerHTML = items.map(cardHTML).join("");
+    empty.style.display = items.length ? "none" : "block";
+  }
+
+  document.getElementById("filters").addEventListener("click", function (e) {
+    var chip = e.target.closest(".chip");
+    if (!chip) return;
+    var group = chip.dataset.cat ? "cat" : "time";
+    var attr = group === "cat" ? "data-cat" : "data-time";
+    document.querySelectorAll("#filters .chip[" + attr + "]").forEach(function (c) {
+      c.setAttribute("aria-pressed", "false");
+    });
+    chip.setAttribute("aria-pressed", "true");
+    state[group] = group === "cat" ? chip.dataset.cat : chip.dataset.time;
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>

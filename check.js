@@ -1,0 +1,11 @@
+global.window = {};
+require("./recipes.js");
+const R = window.RECIPES;
+const f = (c, t) => R.filter(r => (c === "all" || r.category === c) && (t === "all" || (t === "999" ? r.cookTime > 60 : r.cookTime <= Number(t)))).length;
+console.log("total", R.length, "featured", R.filter(r => r.featured).length);
+console.log("cats", [...new Set(R.map(r => r.category))].join(","));
+console.log("slugs unique", new Set(R.map(r => r.slug)).size === R.length);
+console.log("all have imagined+advice", R.every(r => r.imaginedIngredient && r.advice));
+console.log("Desserts", f("Desserts", "all"), "under30", f("all", "30"), "under60", f("all", "60"), "long", f("all", "999"), "Desserts+30", f("Desserts", "30"));
+const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+console.log("email bad/good", re.test("bad"), re.test("m@example.com"));

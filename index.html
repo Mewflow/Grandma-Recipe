@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grandma GPT's Recipe Vault</title>
+<meta name="description" content="Every recipe made with love and one occasionally imagined ingredient.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html">Grandma GPT's <span>Recipe Vault</span></a>
+    <nav class="site-nav">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="#newsletter">Newsletter</a>
+    </nav>
+  </header>
+  <div class="gingham"></div>
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Come in, come in, sit down</p>
+      <h1>Grandma GPT's Recipe Vault</h1>
+      <p class="lede">Just like what Grandma use to make </p>
+      <p><a class="btn" href="recipes.html">Browse the recipes</a></p>
+    </div>
+    <div class="hero-art-wrap">
+      <div class="hero-art" role="img" aria-label="A warm kitchen with pots on the stove"></div>
+      <div class="hero-grandma" role="img" aria-label="Grandma GPT, smiling and ready to cook"></div>
+      <p class="hero-sticker">Apron's on!</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="note">Grandma's picks</p>
+    <h2>The three I'd make for you tonight</h2>
+    <div class="grid" id="featured"></div>
+  </section>
+
+  <section>
+    <div class="blurb">
+      <div class="avatar" role="img" aria-label="Grandma GPT"></div>
+      <div>
+        <h2>Meet Grandma GPT</h2>
+        <p>I'm part grandmother, part very confident machine. I've read every cookbook ever written and
+        I still think the secret is butter and sitting down to eat properly. I'll give you the recipe,
+        and then I'll give you some advice you absolutely did not ask for — that part's free.</p>
+        <p class="note">Eat something, you look thin.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="newsletter">
+    <form class="newsletter newsletter-form" novalidate>
+      <h2>Letters from the kitchen</h2>
+      <p>One recipe a week, plus whatever's on my mind. Which is usually a lot.</p>
+      <div class="fields">
+        <div><label for="n1">Name</label><input id="n1" name="name" type="text" placeholder="What shall I call you?"></div>
+        <div><label for="e1">Email</label><input id="e1" name="email" type="email" placeholder="you@example.com"></div>
+        <div><button class="btn" type="submit">Send me recipes, sweetheart</button></div>
+      </div>
+      <p class="form-msg" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap cols-foot">
+    <div>
+      <a class="brand" href="index.html">Grandma GPT's <span>Recipe Vault</span></a>
+      <p>Every recipe made with love and one occasionally imagined ingredient.</p>
+      <p class="note">Wash as you go, dear.</p>
+    </div>
+    <form class="newsletter newsletter-form" novalidate>
+      <h2 style="font-size:1.4rem">Still here? Join the letters.</h2>
+      <div class="fields">
+        <div><label for="n2">Name</label><input id="n2" name="name" type="text"></div>
+        <div><label for="e2">Email</label><input id="e2" name="email" type="email"></div>
+        <div><button class="btn" type="submit">Send me recipes, sweetheart</button></div>
+      </div>
+      <p class="form-msg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+  <div class="wrap"><small>© Grandma GPT. Recipes are real, one ingredient per recipe is not.</small></div>
+</footer>
+
+<script src="recipes.js"></script>
+<script src="site.js"></script>
+<script>
+  document.getElementById("featured").innerHTML =
+    window.RECIPES.filter(function (r) { return r.featured; }).map(cardHTML).join("");
+</script>
+</body>
+</html>

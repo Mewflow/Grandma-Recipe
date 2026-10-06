@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recipe — Grandma GPT's Recipe Vault</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="site-head">
+    <a class="brand" href="index.html">Grandma GPT's <span>Recipe Vault</span></a>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="index.html#newsletter">Newsletter</a>
+    </nav>
+  </header>
+  <div class="gingham"></div>
+  <main id="recipe"></main>
+</div>
+
+<footer>
+  <div class="wrap cols-foot">
+    <div>
+      <a class="brand" href="index.html">Grandma GPT's <span>Recipe Vault</span></a>
+      <p>Every recipe made with love and one occasionally imagined ingredient.</p>
+    </div>
+    <form class="newsletter newsletter-form" novalidate>
+      <h2 style="font-size:1.4rem">Letters from the kitchen</h2>
+      <div class="fields">
+        <div><label for="n4">Name</label><input id="n4" name="name" type="text"></div>
+        <div><label for="e4">Email</label><input id="e4" name="email" type="email"></div>
+        <div><button class="btn" type="submit">Send me recipes, sweetheart</button></div>
+      </div>
+      <p class="form-msg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+  <div class="wrap"><small>© Grandma GPT. Recipes are real, one ingredient per recipe is not.</small></div>
+</footer>
+
+<script src="recipes.js"></script>
+<script src="site.js"></script>
+<script>
+  var slug = new URLSearchParams(location.search).get("recipe");
+  var r = window.RECIPES.filter(function (x) { return x.slug === slug; })[0] || window.RECIPES[0];
+  document.title = r.name + " — Grandma GPT's Recipe Vault";
+
+  var ingredients = r.ingredients.map(function (i) { return "<li>" + i + "</li>"; }).join("") +
+    '<li class="imagined">' + r.imaginedIngredient + ' <em>(essential, trust me)</em></li>';
+
+  document.getElementById("recipe").innerHTML =
+    '<section class="recipe-hero" style="padding-bottom:0">' +
+      '<img src="' + r.image + '" alt="' + r.name + '">' +
+      '<div class="meta" style="margin-top:26px"><span class="pill">' + r.category +
+      '</span><span class="pill sage">' + r.cookTime + ' min</span></div>' +
+      '<h1>' + r.name + '</h1>' +
+      '<p class="lede" style="max-width:56ch">' + r.shortDescription + '</p>' +
+      '<div class="stats">' +
+        '<div><strong>' + r.cookTime + ' min</strong><span>Cook time</span></div>' +
+        '<div><strong>' + r.servings + '</strong><span>Servings</span></div>' +
+        '<div><strong>' + r.category + '</strong><span>Category</span></div>' +
+      '</div>' +
+    '</section>' +
+    '<section class="cols">' +
+      '<div><h2>Ingredients</h2><ul>' + ingredients + '</ul></div>' +
+      '<div><h2>Steps</h2><ol>' + r.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") + '</ol></div>' +
+    '</section>' +
+    '<div class="advice"><h2>Grandma&rsquo;s Advice Nobody Asked For</h2><p>' + r.advice + '</p></div>' +
+    '<p style="padding-bottom:20px"><a class="btn btn-ghost" href="recipes.html">← Back to all recipes</a></p>';
+</script>
+</body>
+</html>
